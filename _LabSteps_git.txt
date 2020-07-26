@@ -1,0 +1,345 @@
+﻿# Git 入門練習
+
+
+0   請到下列網址下載 Git 的安裝程式
+    https://git-scm.com/
+
+    <Note> 本操作文件以 Windows 作業系統舉例說明。
+
+    <Note> 安裝時，請勾選Windows Explorer integration 底下的兩個選項:
+    - Git Bash Here
+    - Git GUI Here
+
+
+1.  檢視與設定 Git 組態
+
+
+1.1 新增 Git Bach 視窗
+
+    <Note> 在檔案總管右鍵點按任一資料夾 | Git Bash Here
+
+
+1.2 輸入指令: git config --list
+
+    <Note> 請特別觀察 user.name、user.email、core.editor 這三項設定值
+
+    
+1.3 輸入下列指令: 
+
+git config --global user.name "yourName"
+git config --global user.email "you@email.address"
+例如:
+git config --global user.name "Chien"
+git config --global user.email "stdnt25@gmail.com"
+
+
+1.4 再次輸入指令: git config --list 觀察新的設定值
+
+
+
+
+2.  建立 Repository (數據庫)
+
+
+2.1 輸入下列指令，建立並切換到新的 gitLab 資料夾:
+
+mkdir /c/gitLab
+cd /c/gitLab
+
+    <Note>
+    c:\gitLab 是本次 Git 練習接下來示範的工作目錄
+
+
+2.2 在 Git 練習工作目錄建立新檔案，
+    檔名: shopping.txt。檔案內容如下:
+
+# Shpping List
+
+- milk
+- eggs
+
+
+
+2.3 在命令列視窗，輸入指令: git status 以了解工作目錄的現況
+
+    <Note> 出現錯誤訊息，指出在目前目錄找不到 git repository
+    fatal: Not a git repository (or any of the parent directories): .git
+
+
+2.4 建立 Repository (數據庫)，指令: git init
+
+    <Note> 觀察 gitLab 資料夾是否多出一個 .git 子資料夾
+
+    <Note> 如果沒有看到 .git 子資料夾，請設定檔案總管別隱藏系統資料夾。
+
+    
+2.5 再次使用 git status 了解工作目錄的現況:
+
+    <Note> Git 系統告訴我們:
+    shopping.txt 不在 Git 管制之列，
+    建議我們用 git add 指令:
+
+    Untracked files:
+        (use "git add <file>..." to include in what will be committed)
+
+        shopping.txt
+
+
+2.6 將檔案複製一份到暫存區，指令:
+
+git add *.txt
+git status
+
+    <Note> 出現下列訊息，指出 shopping.txt 已修改，尚未 commit
+    Changes to be committed:
+        (use "git rm --cached <file>..." to unstage)
+
+        new file:   shopping.txt
+
+
+2.7 將檔案「認可」到數據庫，指令:
+
+git commit -m "create a shopping list"
+git status
+
+    <Note> 出現下列訊息，指出 master 這個 branch 各項異動都已確認。
+    On branch master
+    nothing to commit, working directory clean
+
+
+2.Q 請試著回答下列問題: (本文件的結尾處有參考答案)
+
+    (1) 什麼是 repository(數據庫)?
+
+    (2) 什麼是 working directory?
+
+
+
+
+3.  建立新的 branch (分支)
+
+
+3.1 在命令列視窗，輸入指令: git branch
+    <Note> 目前只有一個 branch (分支)
+    * master
+
+
+3.1 在命令列視窗，輸入下列指令，建立 bbq 新 branch (分支): 
+git branch bbq
+git branch
+    <Note> 訊息以 * 指出我們目前使用是 master 這個分支。
+      bbq
+    * master
+
+    <Note> 終端機 $ 提示字元左側也會提示我們在哪一個分支
+    例如: (master) $
+    
+
+3.2 在命令列視窗，輸入下列指令可切換分支: 
+git checkout bbq
+git branch
+    <Note> 訊息以 * 指出我們目前使用是 bbq 這個分支。
+    * bbq
+      master
+
+
+3.3 將 shopping.txt 的內容修改成這樣:
+
+# Shpping List
+
+- milk
+- 10 eggs
+- pork
+- barbecue grill
+- wood coal
+
+    <Note> 加上三項烤肉所需的品項，雞蛋數量為 10 顆。
+    <Note> 記得要存檔喔!
+
+
+3.4 將修改後的 shopping.txt 「認可」到 repository (的 bbq 分支)
+git status
+git add shopping.txt
+git commit -m "add bbq items"
+
+
+3.5 切換回 master branch:
+
+git checkout master
+git branch
+    <Note> * 指出我們目前使用是 master 這個分支。
+      bbq
+    * master
+
+
+3.6 開啟並檢視檔案 shopping.txt。
+    <Note> 為什麼剛才的那三項烤肉品項不見了?
+
+
+
+
+4.  觀察/比較/合併 branch (分支)
+
+
+4.1 在命令列視窗，輸入指令: git diff bbq
+
+<Note> 兩個版本的差異報告:
+
+diff --git a/shopping.txt b/shopping.txt
+index 2cdbce5..051e8e5 100644
+--- a/shopping.txt
++++ b/shopping.txt
+@@ -1,7 +1,4 @@
+ # Shpping List
+ 
+ - milk
+-- 10 eggs
+-- pork
+-- barbecue grill
+-- wood coal
++- eggs
+
+
+4.2 合併 master 與 bbq。在命令列視窗，輸入下列指令:
+git merge --no-ff bbq
+
+
+4.3 開啟並檢視檔案 shopping.txt
+    <Note> 購物清單已換成新版內容。
+
+
+4.Q 請試著回答下列問題:
+
+    (1) 什麼是 branch(分支)?
+
+    (2) 每個 repository(數據庫) 預設的 branch(分支) 叫什麼名字?
+
+    (3) 哪一個指令可切換 branch(分支)?
+
+    (4) 要合併分支主線的 git 指令怎麼寫?
+
+
+
+
+5.  版本衝突模擬與因應對策
+
+
+5.1 確認目前使用的是 master 這個 branch: 
+git checkout master
+
+
+5.2 在購物清單尾端加入 - mushroom 新品項
+    <Note> 記得要存檔喔!
+
+
+5.3 輸入下列指令，「認可」檔案異動:
+git add shopping.txt
+git commit -m "add mushroom into shopping list"
+
+
+5.4 切換到 bbq 這個 branch: 
+git checkout bbq
+
+
+5.5 在購物清單尾端加入 - corn 新品項
+    <Note> 記得要存檔喔!
+
+
+5.6 輸入下列指令，「認可」檔案異動:
+git add shopping.txt
+git commit -m "add corn into shopping list"
+
+    <Note> 好了，現在兩個 branch 各自改了內容而且都確認了。怎麼辧呢?
+
+
+5.7 輸入下列指令:
+
+git checkout master
+git merge --no-ff bbq
+
+    <Note>結果出現下列訊息，提示我們有版本衝突問題:
+    Auto-merging shopping.txt
+    CONFLICT (content): Merge conflict in shopping.txt
+    Automatic merge failed; fix conflicts and then commit the result.
+
+
+5.8 修改 shopping.txt，保留兩個版本的品項內容（買，都買），存檔。
+
+
+5.9 解決衝突之後，重新再 commit 一次，指令如下:
+git add shopping.txt
+git commit -m "Merge branch 'bbq', conflict solved"
+
+
+5.A 執行下列指令，觀看整個修改歷程記錄: 
+git log
+
+    <Note> 鍵盤 Q 鍵可結束瀏覽畫面。
+
+
+
+
+6.  git reset 測試
+
+
+6.1 修改 shopping.txt，加上 - item 1 到檔案結尾處，存檔。
+
+
+6.2 輸入下列指令:
+
+git add .
+git commit -m "item 1"
+
+
+6.3 修改 shopping.txt，加上 - item 2 到檔案結尾處，存檔。
+
+
+6.4 輸入下列指令:
+
+git add .
+git commit -m "item 2"
+
+
+6.5 修改 shopping.txt，加上 - item 3 到檔案結尾處，存檔。
+
+
+6.6 輸入下列指令:
+
+git add .
+git commit -m "item 3"
+
+    <Note>
+    請用 git log --pretty=format:"%h - %s" 看一遍歷程內容，
+    並且留意 item 1 的雜湊值。
+
+
+6.7 修改 shopping.txt，加上 - item X 到檔案結尾處，存檔。
+
+
+6.8 輸入下列指令:
+git reset HEAD --hard
+
+    <Note> 請觀察 shopping.txt 的內容是否回復。
+
+6.9 輸入下列指令:
+git reset HEAD~2 --hard
+
+    <Note> 請觀察 shopping.txt 的內容回復到哪一個階段?
+
+6.10 輸入下列指令:
+git reset 步驟6.6記下的雜湊值 --hard
+
+    <Note> 請觀察 shopping.txt 的內容是否回復到 item 3 階段。
+
+
+
+
+2.Q 請試著回答下列問題:
+
+    (1) 什麼是 repository(數據庫)? 一個 .git 的資料夾
+
+    (2) 什麼是 working directory? 受 Git 系統節制的工作目錄
+
+
+
+
